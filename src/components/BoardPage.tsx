@@ -5,6 +5,8 @@ import { RootState } from '../store/store'
 import { boardsActions } from '../store/slices/boardsSlice'
 import { Helmet } from 'react-helmet-async'
 
+import BoardColumns from './BoardColumns'
+
 const BoardPage = () => {
     const { boardId } = useParams<{ boardId: string }>()
     const dispatch = useDispatch()
@@ -49,49 +51,7 @@ const BoardPage = () => {
             </div>
 
             <div className="flex gap-4 overflow-x-auto">
-                {board.columns.map((column) => {
-                    const [taskTitle, setTaskTitle] = useState('')
-
-                    const handleAddTask = () => {
-                        if (!taskTitle.trim()) return
-                        dispatch(
-                            boardsActions.addTaskToColumn({
-                                boardId: board.id,
-                                columnId: column.id,
-                                taskTitle
-                            })
-                        )
-                        setTaskTitle('')
-                    }
-
-                    return (
-                        <div key={column.id} className="bg-white min-w-[200px] border rounded shadow p-3">
-                            <h2 className="font-semibold mb-2">{column.title}</h2>
-
-                            <ul className="space-y-1 mb-2">
-                                {column.tasks.map(task => (
-                                    <li key={task.id} className="bg-gray-100 px-2 py-1 rounded">
-                                        {task.title}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <input
-                                type="text"
-                                className="w-full p-1 border rounded text-sm"
-                                placeholder="Add task..."
-                                value={taskTitle}
-                                onChange={(e) => setTaskTitle(e.target.value)}
-                            />
-                            <button
-                                onClick={handleAddTask}
-                                className="w-full mt-1 text-sm bg-blue-500 text-white rounded px-2 py-1 hover:bg-blue-600"
-                            >
-                                Add
-                            </button>
-                        </div>
-                    )
-                })}
+                <BoardColumns boardId={board.id} columns={board.columns} />
             </div>
         </div>
     )
