@@ -54,6 +54,25 @@ const boardsSlice = createSlice({
                 })
                 LocalStorageManager.setBoards(state.boards)
             }
+        },
+        reorderTasksInColumn: (
+            state,
+            action: PayloadAction<{
+                boardId: string
+                columnId: string
+                sourceIndex: number
+                destinationIndex: number
+            }>
+        ) => {
+            const { boardId, columnId, sourceIndex, destinationIndex } = action.payload
+            const board = state.boards.find(b => b.id === boardId)
+            const column = board?.columns.find(c => c.id === columnId)
+            if (!column) return
+
+            const [movedTask] = column.tasks.splice(sourceIndex, 1)
+            column.tasks.splice(destinationIndex, 0, movedTask)
+
+            LocalStorageManager.setBoards(state.boards)
         }
     }
 })
