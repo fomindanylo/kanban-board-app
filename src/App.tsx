@@ -1,10 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
-import BoardList from './components/BoardsList'
+
+import BoardsListPage from './components/BoardsListPage'
+import BoardPage from './components/BoardPage'
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<BoardList />} />
+      <Route path="/" element={<BoardsListPage />} />
+      <Route path="/boards/:boardId" element={<BoardPage />} />
     </Routes>
   )
 }
