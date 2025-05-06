@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
+
 
 import { useState } from 'react'
 import { RootState } from '../store/store'
 import { boardsActions } from '../store/slices/boardsSlice'
 
-const BoardList = () => {
+const BoardsListPage = () => {
     const boards = useSelector((state: RootState) => state.boards.boards)
     const dispatch = useDispatch()
     const [title, setTitle] = useState('')
@@ -43,12 +45,9 @@ const BoardList = () => {
 
                 <ul className="space-y-2">
                     {boards.map((board) => (
-                        <li
-                            key={board.id}
-                            className="bg-white shadow p-3 rounded border border-gray-200"
-                        >
+                        <Link key={board.id} to={`/boards/${board.id}`} className="block hover:underline">
                             {board.title}
-                        </li>
+                        </Link>
                     ))}
                 </ul>
             </div>
@@ -56,4 +55,4 @@ const BoardList = () => {
     )
 }
 
-export default BoardList
+export default BoardsListPage
