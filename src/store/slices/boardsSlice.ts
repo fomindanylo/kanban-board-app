@@ -1,0 +1,31 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { Board } from '../../types'
+import { LocalStorageManager } from '../../utils/localStorage'
+
+export const BOARDS_SLICE_NAME = 'boards'
+
+interface BoardsState {
+    boards: Board[]
+}
+
+const initialState: BoardsState = {
+    boards: LocalStorageManager.getBoards()
+}
+
+const boardsSlice = createSlice({
+    name: BOARDS_SLICE_NAME,
+    initialState,
+    reducers: {
+        addBoard: (state, action: PayloadAction<string>) => {
+            const newBoard: Board = {
+                id: crypto.randomUUID(),
+                title: action.payload,
+                columns: []
+            }
+            state.boards.push(newBoard)
+            LocalStorageManager.setBoards(state.boards)
+        }
+    }
+})
+
+export const { reducer: boardsReducer, actions: boardsActions } = boardsSlice
