@@ -38,6 +38,22 @@ const boardsSlice = createSlice({
                 })
                 LocalStorageManager.setBoards(state.boards)
             }
+        },
+        addTaskToColumn: (
+            state,
+            action: PayloadAction<{ boardId: string; columnId: string; taskTitle: string }>
+        ) => {
+            const board = state.boards.find(b => b.id === action.payload.boardId)
+            const column = board?.columns.find(c => c.id === action.payload.columnId)
+
+            if (column) {
+                column.tasks.push({
+                    id: crypto.randomUUID(),
+                    title: action.payload.taskTitle,
+                    description: ''
+                })
+                LocalStorageManager.setBoards(state.boards)
+            }
         }
     }
 })
