@@ -5,6 +5,8 @@ import {
     DropResult
 } from '@hello-pangea/dnd'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import { boardsActions } from '../store/slices/boardsSlice'
 import type { Column } from '../types'
 import { useState } from 'react'
@@ -118,7 +120,7 @@ const ColumnWithTasks = ({ column, boardId }: { column: Column; boardId: string 
                 <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`bg-white min-w-[280px] min-h-[320px] max-w-[280px] flex-shrink-0 rounded-xl border shadow-md p-4 flex flex-col transition-all duration-200
+                    className={`bg-white min-w-[280px] max-w-[280px] flex-shrink-0 rounded-xl border shadow-md p-4 flex flex-col transition-all duration-200
                   ${snapshot.isDraggingOver ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
                 `}
                 >
@@ -130,14 +132,16 @@ const ColumnWithTasks = ({ column, boardId }: { column: Column; boardId: string 
                                 {column.tasks.map((task, index) => (
                                     <Draggable key={task.id} draggableId={task.id} index={index}>
                                         {(drag) => (
-                                            <li
-                                                ref={drag.innerRef}
-                                                {...drag.draggableProps}
-                                                {...drag.dragHandleProps}
-                                                className="bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-2 rounded-lg text-sm text-blue-900 shadow-sm transition"
-                                            >
-                                                {task.title}
-                                            </li>
+                                            <Link to={`task/${task.id}`} className="block">
+                                                <li
+                                                    ref={drag.innerRef}
+                                                    {...drag.draggableProps}
+                                                    {...drag.dragHandleProps}
+                                                    className="bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-2 rounded-lg text-sm text-blue-900 shadow-sm transition"
+                                                >
+                                                    {task.title}
+                                                </li>
+                                            </Link>
                                         )}
                                     </Draggable>
                                 ))}
@@ -166,7 +170,8 @@ const ColumnWithTasks = ({ column, boardId }: { column: Column; boardId: string 
                         Add Task
                     </button>
                 </div>
-            )}
-        </Droppable>
+            )
+            }
+        </Droppable >
     )
 }

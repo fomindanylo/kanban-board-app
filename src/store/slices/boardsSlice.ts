@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { Board } from '../../types'
+import type { Board, Task } from '../../types'
 import { LocalStorageManager } from '../../utils/localStorage'
 
 export const BOARDS_SLICE_NAME = 'boards'
@@ -103,6 +103,39 @@ const boardsSlice = createSlice({
             const [movedTask] = sourceColumn.tasks.splice(sourceIndex, 1)
             if (movedTask) {
                 destinationColumn.tasks.splice(destinationIndex, 0, movedTask)
+                LocalStorageManager.setBoards(state.boards)
+            }
+        },
+        updateTask: (
+            state,
+            action: PayloadAction<{
+                boardId: string
+                columnId: string
+                taskId: string
+                update: Partial<Task>
+            }>
+        ) => {
+            const board = state.boards.find(b => b.id === action.payload.boardId)
+            const column = board?.columns.find(c => c.id === action.payload.columnId)
+            const task = column?.tasks.find(t => t.id === action.payload.taskId)
+
+            if (task) {
+                Object.assign(task, action.payload.update)
+                LocalStorageManager.setBoards(state.boards)
+            }
+        },
+        deleteTask: (
+            state,
+            action: PayloadAction<{
+                boardId: string
+                columnId: string
+                taskId: string
+            }>
+        ) => {
+            const board = state.boards.find(b => b.id === action.payload.boardId)
+            const column = board?.columns.find(c => c.id === action.payload.columnId)
+            if (column) {
+                column.tasks = column.tasks.filter(t => t.id !== action.payload.taskId)
                 LocalStorageManager.setBoards(state.boards)
             }
         }
