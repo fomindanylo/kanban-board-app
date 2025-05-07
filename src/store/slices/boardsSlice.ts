@@ -138,6 +138,30 @@ const boardsSlice = createSlice({
                 column.tasks = column.tasks.filter(t => t.id !== action.payload.taskId)
                 LocalStorageManager.setBoards(state.boards)
             }
+        },
+        updateBoardColor: (
+            state,
+            action: PayloadAction<{ boardId: string; color: string }>
+        ) => {
+            const board = state.boards.find(b => b.id === action.payload.boardId)
+            if (board) {
+                board.color = action.payload.color
+                LocalStorageManager.setBoards(state.boards)
+            }
+        },
+        updateBoardTitle: (
+            state,
+            action: PayloadAction<{ boardId: string; title: string }>
+        ) => {
+            const board = state.boards.find(b => b.id === action.payload.boardId)
+            if (board) {
+                board.title = action.payload.title
+                LocalStorageManager.setBoards(state.boards)
+            }
+        },
+        removeBoard: (state, action: PayloadAction<{ boardId: string }>) => {
+            state.boards = state.boards.filter(b => b.id !== action.payload.boardId)
+            LocalStorageManager.setBoards(state.boards)
         }
     }
 })
