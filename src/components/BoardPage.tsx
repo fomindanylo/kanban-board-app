@@ -27,30 +27,13 @@ const BoardPage = () => {
     }
 
     return (
-        <div className="p-4 max-w-5xl mx-auto">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-pink-50 p-6">
             <Helmet>
                 <title>{board.title} | Kanban</title>
             </Helmet>
 
-            <h1 className="text-3xl font-bold mb-6">{board.title}</h1>
-
-            <div className="flex gap-2 mb-4">
-                <input
-                    type="text"
-                    className="border rounded p-2 flex-grow"
-                    placeholder="New column title..."
-                    value={columnTitle}
-                    onChange={(e) => setColumnTitle(e.target.value)}
-                />
-                <button
-                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                    onClick={handleAddColumn}
-                >
-                    Add Column
-                </button>
-            </div>
-
-            <div className="flex gap-4 overflow-x-auto">
+            <div className="max-w-7xl mx-auto">
+                <h1 className="text-3xl font-bold text-gray-800 mb-6">{board.title}</h1>
                 <BoardColumns boardId={board.id} columns={board.columns} />
             </div>
         </div>

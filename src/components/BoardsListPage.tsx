@@ -34,6 +34,12 @@ const BoardsListPage = () => {
                         placeholder="Board name..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault()
+                                handleAddBoard()
+                            }
+                        }}
                     />
                     <button
                         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
