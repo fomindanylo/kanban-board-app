@@ -29,8 +29,10 @@ const BoardPage = () => {
         )
     }
 
+    const background = board.color || 'bg-gray-100'
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-pink-50 p-6">
+        <div className={`min-h-screen ${background} p-6`}>
             <Helmet>
                 <title>{board.title} | Kanban</title>
             </Helmet>

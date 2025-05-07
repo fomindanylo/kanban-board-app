@@ -13,5 +13,6 @@ export interface Column {
 export interface Board {
   id: string
   title: string
-  columns: Column[]
+  columns: Column[],
+  color?: string // optional hex or className
 }

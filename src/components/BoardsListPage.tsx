@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Helmet } from 'react-helmet-async'
-import { Link } from 'react-router-dom'
-
+import { Link, Outlet } from 'react-router-dom'
 
 import { useState } from 'react'
 import { RootState } from '../store/store'
@@ -51,20 +50,38 @@ const BoardsListPage = () => {
 
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {boards.map((board) => (
-                        <li key={board.id}>
+                        <li key={board.id} className="relative group">
                             <Link
                                 to={`/boards/${board.id}`}
-                                className="block p-4 rounded-xl bg-white hover:bg-blue-50 shadow-sm border border-gray-200 transition"
+                                className={`block p-4 rounded-xl shadow-sm border border-gray-200 transition ${board.color || 'bg-white'
+                                    } hover:brightness-95`}
                             >
                                 <h2 className="font-medium text-lg text-gray-800">{board.title}</h2>
                                 <p className="text-sm text-gray-500 mt-1">
                                     {board.columns.length} column{board.columns.length !== 1 && 's'}
                                 </p>
                             </Link>
+
+                            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                                <Link
+                                    to={`/edit/${board.id}`}
+                                    className="text-sm px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
+                                >
+                                    ✎
+                                </Link>
+                                <Link
+                                    to={`/delete/${board.id}`}
+                                    className="text-sm px-2 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 transition"
+                                >
+                                    ✕
+                                </Link>
+                            </div>
                         </li>
                     ))}
                 </ul>
             </div>
+
+            <Outlet />
         </>
     )
 }
