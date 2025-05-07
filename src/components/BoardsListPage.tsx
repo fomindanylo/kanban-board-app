@@ -24,8 +24,8 @@ const BoardsListPage = () => {
                 <title>Kanban Boards</title>
                 <meta name="description" content="Manage your boards in a clean Kanban interface." />
             </Helmet>
-            <div className="p-4 max-w-xl mx-auto">
-                <h1 className="text-2xl font-bold mb-4">Kanban Boards</h1>
+            <div className="max-w-7xl mx-auto p-6">
+                <h1 className="text-2xl font-bold mb-6">Your Boards</h1>
 
                 <div className="flex gap-2 mb-6">
                     <input
@@ -49,11 +49,19 @@ const BoardsListPage = () => {
                     </button>
                 </div>
 
-                <ul className="space-y-2">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {boards.map((board) => (
-                        <Link key={board.id} to={`/boards/${board.id}`} className="block hover:underline">
-                            {board.title}
-                        </Link>
+                        <li key={board.id}>
+                            <Link
+                                to={`/boards/${board.id}`}
+                                className="block p-4 rounded-xl bg-white hover:bg-blue-50 shadow-sm border border-gray-200 transition"
+                            >
+                                <h2 className="font-medium text-lg text-gray-800">{board.title}</h2>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    {board.columns.length} column{board.columns.length !== 1 && 's'}
+                                </p>
+                            </Link>
+                        </li>
                     ))}
                 </ul>
             </div>
