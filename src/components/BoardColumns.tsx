@@ -32,16 +32,29 @@ const BoardColumns = ({ boardId, columns }: BoardColumnsProps) => {
 
     const handleDragEnd = (result: DropResult) => {
         const { source, destination } = result
-        if (!destination || source.droppableId !== destination.droppableId) return
 
-        dispatch(
-            boardsActions.reorderTasksInColumn({
-                boardId,
-                columnId: source.droppableId,
-                sourceIndex: source.index,
-                destinationIndex: destination.index
-            })
-        )
+        if (!destination) return
+
+        if (source.droppableId === destination.droppableId) {
+            dispatch(
+                boardsActions.reorderTasksInColumn({
+                    boardId,
+                    columnId: source.droppableId,
+                    sourceIndex: source.index,
+                    destinationIndex: destination.index,
+                })
+            )
+        } else {
+            dispatch(
+                boardsActions.moveTaskToAnotherColumn({
+                    boardId,
+                    sourceColumnId: source.droppableId,
+                    destinationColumnId: destination.droppableId,
+                    sourceIndex: source.index,
+                    destinationIndex: destination.index,
+                })
+            )
+        }
     }
 
     return (
@@ -70,7 +83,6 @@ const BoardColumns = ({ boardId, columns }: BoardColumnsProps) => {
                 </div>
             </div>
             <DragDropContext onDragEnd={handleDragEnd}>
-
                 <div className="flex gap-4 overflow-x-auto pb-4" style={{ scrollSnapType: 'x mandatory' }}>
                     {columns.map((column) => (
                         <ColumnWithTasks key={column.id} column={column} boardId={boardId} />
@@ -102,31 +114,37 @@ const ColumnWithTasks = ({ column, boardId }: { column: Column; boardId: string 
 
     return (
         <Droppable droppableId={column.id}>
-            {(provided) => (
+            {(provided, snapshot) => (
                 <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="bg-white min-w-[280px] max-w-[280px] flex-shrink-0 rounded-2xl border border-gray-200 shadow-sm p-4"
+                    className={`bg-white min-w-[280px] min-h-[320px] max-w-[280px] flex-shrink-0 rounded-xl border shadow-md p-4 flex flex-col transition-all duration-200
+                  ${snapshot.isDraggingOver ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
+                `}
                 >
-                    <h2 className="font-semibold text-lg text-gray-800 mb-3">{column.title}</h2>
+                    <h2 className="font-semibold text-blue-700 text-lg mb-3">{column.title}</h2>
 
-                    <ul className="space-y-1 mb-2">
-                        {column.tasks.map((task, index) => (
-                            <Draggable key={task.id} draggableId={task.id} index={index}>
-                                {(drag) => (
-                                    <li
-                                        ref={drag.innerRef}
-                                        {...drag.draggableProps}
-                                        {...drag.dragHandleProps}
-                                        className="bg-gray-50 hover:bg-gray-100 transition px-3 py-2 rounded-lg border text-sm text-gray-700 shadow-sm"
-                                    >
-                                        {task.title}
-                                    </li>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </ul>
+                    {
+                        column.tasks.length > 0 && (
+                            <ul className="space-y-2 mb-4 min-h-[24px]">
+                                {column.tasks.map((task, index) => (
+                                    <Draggable key={task.id} draggableId={task.id} index={index}>
+                                        {(drag) => (
+                                            <li
+                                                ref={drag.innerRef}
+                                                {...drag.draggableProps}
+                                                {...drag.dragHandleProps}
+                                                className="bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-2 rounded-lg text-sm text-blue-900 shadow-sm transition"
+                                            >
+                                                {task.title}
+                                            </li>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </ul>
+                        )
+                    }
 
                     <input
                         type="text"
