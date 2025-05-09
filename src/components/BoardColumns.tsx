@@ -100,7 +100,7 @@ const BoardColumns = ({ boardId, columns }: BoardColumnsProps) => {
                         <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="flex gap-4"
+                            className="flex gap-4 w-full overflow-x-auto overflow-y-auto max-h-[calc(100vh-100px)] pb-2"
                         >
                             {columns.map((column, index) => (
                                 <Draggable key={column.id} draggableId={column.id} index={index}>
