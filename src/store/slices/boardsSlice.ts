@@ -163,6 +163,21 @@ const boardsSlice = createSlice({
         removeBoard: (state, action: PayloadAction<{ boardId: string }>) => {
             state.boards = state.boards.filter(b => b.id !== action.payload.boardId)
             LocalStorageManager.setBoards(state.boards)
+        },
+        reorderColumns: (
+            state,
+            action: PayloadAction<{
+                boardId: string
+                sourceIndex: number
+                destinationIndex: number
+            }>
+        ) => {
+            const board = state.boards.find((b) => b.id === action.payload.boardId)
+            if (!board) return
+
+            const [moved] = board.columns.splice(action.payload.sourceIndex, 1)
+            board.columns.splice(action.payload.destinationIndex, 0, moved)
+            LocalStorageManager.setBoards(state.boards)
         }
     }
 })

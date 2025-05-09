@@ -33,12 +33,22 @@ const BoardColumns = ({ boardId, columns }: BoardColumnsProps) => {
     }
 
     const handleDragEnd = (result: DropResult) => {
-        const { source, destination } = result
+        const { source, destination, type } = result
 
         if (!destination) return
 
+        if (type === 'COLUMN') {
+            return dispatch(
+                boardsActions.reorderColumns({
+                    boardId,
+                    sourceIndex: source.index,
+                    destinationIndex: destination.index,
+                })
+            )
+        }
+
         if (source.droppableId === destination.droppableId) {
-            dispatch(
+            return dispatch(
                 boardsActions.reorderTasksInColumn({
                     boardId,
                     columnId: source.droppableId,
@@ -46,17 +56,17 @@ const BoardColumns = ({ boardId, columns }: BoardColumnsProps) => {
                     destinationIndex: destination.index,
                 })
             )
-        } else {
-            dispatch(
-                boardsActions.moveTaskToAnotherColumn({
-                    boardId,
-                    sourceColumnId: source.droppableId,
-                    destinationColumnId: destination.droppableId,
-                    sourceIndex: source.index,
-                    destinationIndex: destination.index,
-                })
-            )
         }
+
+        dispatch(
+            boardsActions.moveTaskToAnotherColumn({
+                boardId,
+                sourceColumnId: source.droppableId,
+                destinationColumnId: destination.droppableId,
+                sourceIndex: source.index,
+                destinationIndex: destination.index,
+            })
+        )
     }
 
     return (
@@ -85,11 +95,30 @@ const BoardColumns = ({ boardId, columns }: BoardColumnsProps) => {
                 </div>
             </div>
             <DragDropContext onDragEnd={handleDragEnd}>
-                <div className="flex gap-4 overflow-x-auto pb-4" style={{ scrollSnapType: 'x mandatory' }}>
-                    {columns.map((column) => (
-                        <ColumnWithTasks key={column.id} column={column} boardId={boardId} />
-                    ))}
-                </div>
+                <Droppable droppableId="board-columns" direction="horizontal" type="COLUMN">
+                    {(provided) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className="flex gap-4"
+                        >
+                            {columns.map((column, index) => (
+                                <Draggable key={column.id} draggableId={column.id} index={index}>
+                                    {(drag) => (
+                                        <div
+                                            ref={drag.innerRef}
+                                            {...drag.draggableProps}
+                                            {...drag.dragHandleProps}
+                                        >
+                                            <ColumnWithTasks boardId={boardId} column={column} />
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
             </DragDropContext>
         </>
     )
