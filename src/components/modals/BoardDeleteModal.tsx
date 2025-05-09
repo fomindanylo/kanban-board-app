@@ -1,7 +1,8 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../store/store'
+import { useDispatch,useSelector } from 'react-redux'
+import { useNavigate,useParams } from 'react-router-dom'
+
 import { boardsActions } from '../../store/slices/boardsSlice'
+import { RootState } from '../../store/store'
 import ConfirmModal from './ConfirmModal'
 
 const BoardDeleteModal = () => {
