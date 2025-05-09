@@ -60,3 +60,11 @@ src/
 ├── utils/              // LocalStorageManager
 ├── App.tsx             // Routing setup
 ```
+
+🌐 Live Demo
+
+ℹ️ This app is served under the /kanban-board-app/ route. If you fork or clone it, make sure your vite.config.ts uses the correct base path and your router is configured accordingly.
+
+You can try the app live at:
+
+👉 https://fomindanylo.github.io/kanban-board-app/
