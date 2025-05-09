@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import type { Board, Task } from '../../types'
 import { LocalStorageManager } from '../../utils/localStorage'
 

@@ -1,15 +1,15 @@
 import {
     DragDropContext,
-    Droppable,
     Draggable,
+    Droppable,
     DropResult
 } from '@hello-pangea/dnd'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { boardsActions } from '../store/slices/boardsSlice'
 import type { Column } from '../types'
-import { useState } from 'react'
 
 interface BoardColumnsProps {
     boardId: string

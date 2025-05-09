@@ -1,10 +1,10 @@
-import { Routes, Route } from 'react-router-dom'
+import { Route,Routes } from 'react-router-dom'
 
-import BoardsListPage from './components/BoardsListPage'
-import TaskModal from './components/modals/TaskModal'
 import BoardPage from './components/BoardPage'
+import BoardsListPage from './components/BoardsListPage'
 import BoardDeleteModal from './components/modals/BoardDeleteModal'
 import BoardEditModal from './components/modals/BoardEditModal'
+import TaskModal from './components/modals/TaskModal'
 
 function App() {
   return (

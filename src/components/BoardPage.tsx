@@ -1,8 +1,8 @@
-import { useParams, useNavigate, Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../store/store'
 import { Helmet } from 'react-helmet-async'
+import { useSelector } from 'react-redux'
+import { Outlet,useNavigate, useParams } from 'react-router-dom'
 
+import { RootState } from '../store/store'
 import BoardColumns from './BoardColumns'
 
 const BoardPage = () => {

@@ -1,8 +1,9 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect,useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
-import { RootState } from '../../store/store'
+import { useNavigate,useParams } from 'react-router-dom'
+
 import { boardsActions } from '../../store/slices/boardsSlice'
+import { RootState } from '../../store/store'
 
 const TaskModal = () => {
     const { boardId, taskId } = useParams()

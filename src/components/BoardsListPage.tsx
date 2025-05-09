@@ -1,10 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useDispatch,useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 
-import { useState } from 'react'
-import { RootState } from '../store/store'
 import { boardsActions } from '../store/slices/boardsSlice'
+import { RootState } from '../store/store'
 
 const BoardsListPage = () => {
     const boards = useSelector((state: RootState) => state.boards.boards)
